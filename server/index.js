@@ -17,4 +17,4 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true,
 }));
 
-app.listen(4200, () => console.log('Server is running on http://localhost:4200/graphql'));
+app.listen(8000, () => console.log('Server is running on http://localhost:8000/graphql'));

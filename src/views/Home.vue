@@ -1,36 +1,12 @@
-<template>
-  <div id="home">
-    <div class="col">
-      <label for="new-user">Add a Reader:</label>
-      <div class="flex">
-        <input type="text" v-model="readerName" placeholder="Reader Name..." @keypress.enter="addUser">
-        <button @click="addUser">Create</button>
-      </div>
-      <Table v-if="readers.length" :list="readers" name="readers" />
-    </div>
-    <div class="col">
-      <label for="new-book">Add a Book:</label>
-      <div class="flex">
-        <input id="new-book" type="text" v-model="bookName" placeholder="Book Name..." @keypress.enter="addBook">
-        <button @click="addBook">Create</button>
-      </div>
-      <Table v-if="books.length" :list="books" name="books" />
-    </div>
-    <div class="col">
-      <label for="new-author">Add an Author:</label>
-      <div class="flex">
-        <input id="new-author" type="text" v-model="authorName" placeholder="Author Name..." @keypress.enter="addAuthor">
-        <button @click="addAuthor">Create</button>
-      </div>
-      <Table v-if="authors.length" :list="authors" name="authors" />
-    </div>
-  </div>
+<template src="./Home.html">
+  
 </template>
 
 <script>
 // @ is an alias to /src
 import Table from '../components/Table.vue';
 import axios from 'axios';
+import * as graphql from '../services/grqphql.service.js';
 
 export default {
   name: 'home',
@@ -47,92 +23,61 @@ export default {
       authors: [],
     }
   },
+  async mounted() {
+    const operationType = `query`;
+
+    let operationName = `getReaders`;
+    let fieldsToGet = `{id, firstName, books {id, name, authors {id, firstName}}}`;
+    const readers = await this.gQueriesWithoutPayload({operationType, operationName, fieldsToGet});
+    this.readers = readers.data.data.getReaders;
+
+    operationName = `getBooks`;
+    fieldsToGet = `{id, name, authors {id, firstName}}`;
+    const books = await this.gQueriesWithoutPayload({operationType, operationName, fieldsToGet});
+    this.books = books.data.data.getBooks;
+
+    operationName = `getAuthors`;
+    fieldsToGet = `{id, firstName}`;
+    const authors = await this.gQueriesWithoutPayload({operationType, operationName, fieldsToGet});
+    this.authors = authors.data.data.getAuthors;
+  },
   methods: {
     async addUser() {
-      const res = await axios.post('http://localhost:4200/graphql', {
-        query: `
-          mutation {
-            createReader(input: {
-              firstName: "${this.readerName}"
-            }) {
-              id
-              firstName
-              books {
-                id
-              }
-            }
-          }
-        `
-      })
-      this.readers.push(res.data.data.createReader)
-      this.readerName = ''
+      const operationType = `mutation`;
+      const operationName = `createReader`;
+      const payload = `{firstName: "${this.readerName}"}`;
+      const fieldsToGet = `{id, firstName, books {id}}`;
+      
+      const res = await graphql.gQuery({operationType, operationName, payload, fieldsToGet});
+      this.readers.push(res.data.data.createReader);
+      this.readerName = '';
     },
     async addBook() {
-      const res = await axios.post('http://localhost:4200/graphql', {
-        query: `
-          mutation {
-            createBook(input: {
-              name: "${this.bookName}"
-            }) {
-              id
-              name
-              authors {
-                id
-                firstName
-              }
-            }
-          }
-        `
-      })
-      this.books.push(res.data.data.createBook)
-      this.bookName = ''
+      const operationType = `mutation`;
+      const operationName = `createBook`;
+      const payload = `{name: "${this.bookName}"}`;
+      const fieldsToGet = `{id, name, authors {id, firstName}}`;
+      
+      const res = await graphql.gQuery({operationType, operationName, payload, fieldsToGet});
+      this.books.push(res.data.data.createBook);
+      this.bookName = '';
     },
     async addAuthor() {
-      const res = await axios.post('http://localhost:4200/graphql', {
-        query: `
-          mutation {
-            createAuthor(input: {
-              firstName: "${this.authorName}"
-            }) {
-              id
-              firstName
-            }
-          }
-        `
-      })
+      const operationType = `mutation`;
+      const operationName = `createAuthor`;
+      const payload = `{firstName: "${this.authorName}"}`;
+      const fieldsToGet = `{id, firstName}`;
+      
+      const res = await graphql.gQuery({operationType, operationName, payload, fieldsToGet});
       this.authors.push(res.data.data.createAuthor)
       this.authorName = ''
+    },
+
+    gQueriesWithoutPayload({operationType, operationName, fieldsToGet}) {
+      return graphql.gQueryWithoutPayload({operationType, operationName, fieldsToGet});
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-  .col {
-    width: 30%;
-    margin-bottom: 50px;
-  }
-  input, td, th {
-    color: #28313E;
-    padding: 5px;
-    border: 2px solid #F9FFEE;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-  input {
-    font-size: 1.02rem;
-  }
-
-  .flex {
-    display: flex;
-
-    button {
-      background: #EFBB35;
-      color: #28313E;
-      padding: 5px;
-      border: 2px solid #F9FFEE;
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-    }
-  }
-</style>
+<style lang="scss" scoped src="./style.scss"></style>

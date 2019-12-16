@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
+Vue.prototype.capitalize = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 new Vue({
   router,

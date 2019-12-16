@@ -1,0 +1,32 @@
+<div id="home">
+  <div class="col">
+    <label for="new-user">Add a Reader:</label>
+    <div class="flex">
+      <input type="text" v-model="readerName" placeholder="Reader Name..." @keypress.enter="addUser">
+      <button @click="addUser">Add</button>
+    </div>
+    <div class="table-container">
+      <Table v-if="readers.length" :list="readers" name="readers" />
+    </div>
+  </div>
+  <div class="col">
+    <label for="new-book">Add a Book:</label>
+    <div class="flex">
+      <input id="new-book" type="text" v-model="bookName" placeholder="Book Name..." @keypress.enter="addBook">
+      <button @click="addBook">Add</button>
+    </div>
+    <div class="table-container">
+      <Table v-if="books.length" :list="books" name="books" />
+    </div>
+  </div>
+  <div class="col">
+    <label for="new-author">Add an Author:</label>
+    <div class="flex">
+      <input id="new-author" type="text" v-model="authorName" placeholder="Author Name..." @keypress.enter="addAuthor">
+      <button @click="addAuthor">Add</button>
+    </div>
+    <div class="table-container">
+      <Table v-if="authors.length" :list="authors" name="authors" />
+    </div>
+  </div>
+</div>

@@ -63,8 +63,8 @@ const schema = buildSchema(`
     
 
     type Mutation {
-        attachAuthorToBook(input: AttachAuthorToBookInput): Book
-        attachBookToReader(input: AttachBookToReaderInput): Reader
+        attachAuthorToBook(input: AttachAuthorToBookInput): Author
+        attachBookToReader(input: AttachBookToReaderInput): Book
 
         createAuthor(input: AuthorInput): Author
         createBook(input: BookInput): Book

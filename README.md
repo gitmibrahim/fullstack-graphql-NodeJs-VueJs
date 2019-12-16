@@ -1,24 +1,17 @@
 # fullstack-graphql
 
 ## Project setup
+In both project root `/` and server folder `/server` run
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for Frontend development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and hot-reloads for Backend development
 ```
-npm run build
+npm run start
 ```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

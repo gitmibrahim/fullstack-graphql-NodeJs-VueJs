@@ -63,18 +63,19 @@ const resolvers = {
 
   attachBookToReader: ({ input }) => {
     readerDatabase[input.readerId].books.push(bookDatabase[input.bookId]);
-    return readerDatabase[input.readerId];
-  },
-  detachBookFromReader: ({ input }) => {
-    readerDatabase[input.readerId].books.filter(book => book.id != input.bookId);
-  },
-  attachAuthorToBook: ({ input }) => {
-    console.log(bookDatabase,input.bookId)
-    bookDatabase[input.bookId].authors.push(authorDatabase[input.authorId]);
     return bookDatabase[input.bookId];
   },
+  detachBookFromReader: ({ input }) => {
+    readerDatabase[input.readerId].books.splice(input.bookId, 1);
+    return readerDatabase[input.readerId];
+  },
+  attachAuthorToBook: ({ input }) => {
+    bookDatabase[input.bookId].authors.push(authorDatabase[input.authorId]);
+    return authorDatabase[input.authorId];
+  },
   detachAuthorFromBook: ({ input }) => {
-    bookDatabase[input.bookId].authors.filter(book => book.id != bookId);
+    bookDatabase[input.bookId].authors.splice(input.authorId, 1);
+    return bookDatabase[input.bookId];
   },
 };
 

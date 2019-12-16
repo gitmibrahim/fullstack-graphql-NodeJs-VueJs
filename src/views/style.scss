@@ -1,0 +1,37 @@
+.col {
+  width: 100%;
+  margin-bottom: 150px;
+}
+label {
+  float: left;
+  margin-right: 20px;
+  width: 170px;
+  text-align: left;
+}
+input, td, th {
+  color: #28313E;
+  padding: 5px;
+  border: 2px solid #F9FFEE;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+input {
+  font-size: 1.02rem;
+}
+
+.table-container {
+  min-height: 230px;
+}
+
+.flex {
+  display: flex;
+
+  button {
+    background: #EFBB35;
+    color: #28313E;
+    padding: 5px;
+    border: 2px solid #F9FFEE;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}

@@ -1,0 +1,59 @@
+<div class="table">
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">Name</th>
+        <td v-for="(item, index) in list" :key="index" class="name">
+          <span
+            :draggable="name === 'books' || name === 'authors'"
+            @dragstart="dragStart($event, item)"
+            @dragend="dragEnd"
+            :id="index + name"
+            class="editable"
+            spellcheck="false"
+            @keydown.enter="enter"
+            @input="oninput"
+            @blur="blur(item)"
+          >
+            {{item.name || item.firstName}}
+          </span>
+          <svg @click.stop="startEditing(index)" width="20" height="20" class="edit-icon icon">
+            <image xlink:href="../assets/edit.svg" width="20" height="20"/>    
+          </svg>
+        </td>
+      </tr>
+
+      <tr v-if="name === 'readers' || name === 'books'">
+        <th scope="row" v-if="name === 'readers'">Books</th>
+        <th scope="row" v-if="name === 'books'">Authors</th>
+        <td
+          v-for="(item, index) in list" :key="index"
+          class="target"
+          @drop="drop($event, item, index)"
+          @dragover="allowDrop"
+        >
+          <span class="droppable">Drop {{ name == 'books' ? 'an Author' : 'a Book' }}</span>
+          <template v-if="name == 'readers'">
+            <span class="attach" v-for="(book, idx) in item.books" :key="idx">
+              {{ book.name }}
+              <svg @click.stop="detachBookFromReader(item.id, index, idx)" width="20" height="20" class="delete-icon icon">
+                <image xlink:href="../assets/delete.svg" width="20" height="20"/>    
+              </svg>
+              <hr v-if="idx != item.books.length - 1" />
+            </span>
+          </template>
+          <template v-if="name == 'books'">
+            <span class="attach" v-for="(author, idx) in item.authors" :key="idx">
+              {{ author.firstName }}
+              <svg @click.stop="detachAuthorFromBook(item.id, index, idx)" width="20" height="20" class="delete-icon icon">
+                <image xlink:href="../assets/delete.svg" width="20" height="20"/>    
+              </svg>
+              <hr v-if="idx != item.authors.length - 1" />
+            </span>
+          </template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p id="alert" v-if="message.length">{{ message }}</p>
+</div>

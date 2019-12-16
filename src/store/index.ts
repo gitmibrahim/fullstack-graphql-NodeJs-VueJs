@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     readerId: '',
     bookId: '',
-    authorId: ''
+    authorId: '',
+    dragSrc: '',
   },
   mutations: {
     setReaderId(state, readerId) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     setAuthorId(state, authorId) {
       state.authorId = authorId
+    },
+    setDragSrc(state, dragSrc) {
+      state.dragSrc = dragSrc
     },
   },
   actions: {
@@ -30,6 +34,9 @@ export default new Vuex.Store({
     setAuthorId({ commit }, authorId) {
       commit('setAuthorId', authorId)
     },
+    setDragSrc({ commit }, dragSrc) {
+      commit('setDragSrc', dragSrc)
+    },
   },
   modules: {
   },
@@ -37,5 +44,6 @@ export default new Vuex.Store({
     readerId: (state) => state.readerId,
     bookId: (state) => state.bookId,
     authorId: (state) => state.authorId,
+    dragSrc: (state) => state.dragSrc,
   }
 })
