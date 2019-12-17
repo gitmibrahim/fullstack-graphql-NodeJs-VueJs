@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const gQuery = ({operationType, operationName, payload, fieldsToGet}) => {
-  return axios.post('http://localhost:8000/graphql', {
+  return axios.post('https://shrouded-bastion-47607.herokuapp.com/graphql', {
     query: `
       ${operationType} {
         ${operationName}(input: ${payload}) ${
@@ -13,7 +13,7 @@ export const gQuery = ({operationType, operationName, payload, fieldsToGet}) => 
 };
 
 export const gQueryWithoutPayload = ({operationType, operationName, fieldsToGet}) => {
-  return axios.post('http://localhost:8000/graphql', {
+  return axios.post('https://shrouded-bastion-47607.herokuapp.com/graphql', {
     query: `
       ${operationType} {
         ${operationName} ${
